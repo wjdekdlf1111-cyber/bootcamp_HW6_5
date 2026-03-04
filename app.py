@@ -13,7 +13,9 @@ st.title("🌞 Prophet Forecast with Preprocessed Sunspot Data")
 # TODO: 'sunspots_for_prophet.csv' 파일을 불러오고, 'ds' 컬럼을 datetime 형식으로 변환하세요.
 # '''코드를 작성하시오'''
 df = pd.read_csv("sunspots_for_prophet.csv")
-df["ds"] = pd.to_datetime(df["ds"])
+df["ds"] = pd.to_datetime(df["ds"], errors="coerce")   # 이상값은 NaT로
+df = df.dropna(subset=["ds", "y"])                      # NaT/NaN 제거
+df = df.sort_values("ds").reset_index(drop=True)        # 정렬
 
 st.subheader("📄 데이터 미리보기")
 # '''코드를 작성하시오'''
@@ -109,4 +111,5 @@ st.pyplot(fig4)
 st.subheader("📌 Residual Summary Statistics")
 # TODO: merged["residual"].describe()를 출력하세요.
 # '''코드를 작성하시오'''
+
 st.write(merged["residual"].describe())
