@@ -17,6 +17,8 @@ df["ds"] = pd.to_datetime(df["ds"], errors="coerce")   # 이상값은 NaT로
 df = df.dropna(subset=["ds", "y"])                      # NaT/NaN 제거
 df = df.sort_values("ds").reset_index(drop=True)        # 정렬
 
+df = df[(df["ds"] >= "1900-01-01") & (df["ds"] <= "2008-01-01")]
+
 st.subheader("📄 데이터 미리보기")
 # '''코드를 작성하시오'''
 st.dataframe(df.head())
@@ -113,3 +115,4 @@ st.subheader("📌 Residual Summary Statistics")
 # '''코드를 작성하시오'''
 
 st.write(merged["residual"].describe())
+
